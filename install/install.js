@@ -9,6 +9,8 @@ const defaultLibDir = `${defaultDir}/lib`
 const defaultIncludeDir = `${defaultDir}/include`
 const defaultIncludeDirOpenCV4 = `${defaultIncludeDir}/opencv4`
 
+log.info('install','NODE_ENV is '+process.env.NODE_ENV);
+
 function getDefaultIncludeDirs() {
   log.info('install', 'OPENCV_INCLUDE_DIR is not set, looking for default include dir')
   if (opencvBuild.isWin()) {
