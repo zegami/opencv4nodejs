@@ -11,6 +11,9 @@ const defaultIncludeDirOpenCV4 = `${defaultIncludeDir}/opencv4`
 
 log.info('install','NODE_ENV is '+process.env.NODE_ENV);
 
+// Due to inconsistency with environment vars we cache the env outputs of the install step.
+const envCache = {};
+
 function getDefaultIncludeDirs() {
   log.info('install', 'OPENCV_INCLUDE_DIR is not set, looking for default include dir')
   if (opencvBuild.isWin()) {
@@ -91,10 +94,14 @@ console.log()
 log.info('install', 'setting the following libs:')
 libs.forEach(lib => log.info('libs', lib))
 
-process.env['OPENCV4NODEJS_DEFINES'] = defines.join('\n')
-process.env['OPENCV4NODEJS_INCLUDES'] = includes.join('\n')
+envCache['OPENCV4NODEJS_DEFINES'] = process.env['OPENCV4NODEJS_DEFINES'] = defines.join('\n')
+envCache['OPENCV4NODEJS_INCLUDES'] = process.env['OPENCV4NODEJS_INCLUDES'] = includes.join('\n')
 log.info('install', 'Dumping includes, set "OPENCV4NODEJS_INCLUDES" env var:\n' + includes.join('\n'));
-process.env['OPENCV4NODEJS_LIBRARIES'] = libs.join('\n')
+envCache['OPENCV4NODEJS_LIBRARIES'] = process.env['OPENCV4NODEJS_LIBRARIES'] = libs.join('\n')
+
+
+let output = JSON.stringify(envCache);
+fs.writeFileSync('envCache.json', output);
 
 const flags = process.env.BINDINGS_DEBUG ? '--jobs max --debug' : '--jobs max '
 const nodegypCmd = 'node-gyp rebuild ' + flags
