@@ -100,8 +100,10 @@ log.info('install', 'Dumping includes, set "OPENCV4NODEJS_INCLUDES" env var:\n' 
 envCache['OPENCV4NODEJS_LIBRARIES'] = process.env['OPENCV4NODEJS_LIBRARIES'] = libs.join('\n')
 
 
-let output = JSON.stringify(envCache);
-fs.writeFileSync('envCache.json', output);
+let cacheOutput = JSON.stringify(envCache);
+let cachePath = resolvePath('envCache.json')
+fs.writeFileSync(cachePath, cacheOutput);
+log.info('install', 'cached env vars at '+ cachePath);
 
 const flags = process.env.BINDINGS_DEBUG ? '--jobs max --debug' : '--jobs max '
 const nodegypCmd = 'node-gyp rebuild ' + flags
