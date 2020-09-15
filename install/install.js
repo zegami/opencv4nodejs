@@ -70,6 +70,8 @@ const includes = opencvBuild.isAutoBuildDisabled()
   ? (explicitIncludeDir ? [explicitIncludeDir] : getDefaultIncludeDirs())
   : [resolvePath(opencvBuild.opencvInclude), resolvePath(opencvBuild.opencv4Include)]
 
+log.info('install', 'includes the following: ' + includes.join(', '));
+
 const libs = opencvBuild.isWin()
   ? libsFoundInDir.map(lib => resolvePath(lib.libPath))
   // dynamically link libs if not on windows
@@ -91,7 +93,7 @@ process.env['OPENCV4NODEJS_DEFINES'] = defines.join('\n')
 process.env['OPENCV4NODEJS_INCLUDES'] = includes.join('\n')
 process.env['OPENCV4NODEJS_LIBRARIES'] = libs.join('\n')
 
-const flags = process.env.BINDINGS_DEBUG ? '--jobs max --debug' : '--jobs max'
+const flags = process.env.BINDINGS_DEBUG ? '--jobs max --debug' : '--jobs max '
 const nodegypCmd = 'node-gyp rebuild ' + flags
 log.info('install', `spawning node gyp process: ${nodegypCmd}`)
 const child = child_process.exec(nodegypCmd, { maxBuffer: Infinity }, function(err, stdout, stderr) {
