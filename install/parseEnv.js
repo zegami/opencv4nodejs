@@ -8,17 +8,11 @@ if (!envName) {
 let cache = {};
 
 if (fs.existsSync('envCache.json')) {
-  const cache = fs.openSync('envCache.json');
-  console.log('Found environment cache: ' + cache)
+  cache = JSON.parse(fs.readFileSync('envCache.json'));
 } else {
-  console.warn('Environment cache could not be found?')
+  console.warn('Environment cache could not be found? Did opencv4nodejs install correctly?')
 }
 
-const outputs = (process.env[envName] || '').split('\n')
+const outputs = (process.env[envName] || cache[envName] || '').split('\n')
 
-if (envName == 'OPENCV4NODEJS_INCLUDES' && process.env[envName] === undefined) {
-
-  console.log('install','NODE_ENV is '+process.env.NODE_ENV);
-  console.warn('OPENCV4NODEJS_INCLUDES is empty. Build may fail when referencing opencv2/* without relevant environment configuration.');
-}
 outputs.forEach(o => console.log(o))

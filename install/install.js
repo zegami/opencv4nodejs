@@ -101,7 +101,6 @@ envCache['OPENCV4NODEJS_LIBRARIES'] = process.env['OPENCV4NODEJS_LIBRARIES'] = l
 
 
 let cacheOutput = JSON.stringify(envCache);
-log.info('install', cacheOutput);
 let cachePath = resolvePath('envCache.json')
 fs.writeFileSync(cachePath, cacheOutput);
 log.info('install', 'cached env vars at '+ cachePath);
