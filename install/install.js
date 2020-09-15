@@ -91,6 +91,7 @@ libs.forEach(lib => log.info('libs', lib))
 
 process.env['OPENCV4NODEJS_DEFINES'] = defines.join('\n')
 process.env['OPENCV4NODEJS_INCLUDES'] = includes.join('\n')
+log.info('install', 'Dumping includes, set "OPENCV4NODEJS_INCLUDES" env var:\n' + includes.join('\n'));
 process.env['OPENCV4NODEJS_LIBRARIES'] = libs.join('\n')
 
 const flags = process.env.BINDINGS_DEBUG ? '--jobs max --debug' : '--jobs max '
