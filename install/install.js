@@ -27,6 +27,20 @@ function getDefaultLibDir() {
 
 opencvBuild.applyEnvsFromPackageJson()
 
+const abDisabled = opencvBuild.isAutoBuildDisabled();
+
+log.info('install', 'process.env.OPENCV4NODEJS_DISABLE_AUTOBUILD is ' + process.env.OPENCV4NODEJS_DISABLE_AUTOBUILD)
+if (abDisabled) {
+  log.info('install', 'AUTO BUILD IS DISABLED')
+} else {
+  log.info('install', 'AUTO BUILD IS NOT DISABLED')
+}
+
+log.info('install', 'OPENCV_LIB_DIR is ' + process.env.OPENCV_LIB_DIR);
+const resolvedLibDir = resolvePath(process.env.OPENCV_LIB_DIR);
+
+log.info('install', 'Resolving path results in ' + resolvedLibDir);
+
 const libDir = opencvBuild.isAutoBuildDisabled()
   ? (resolvePath(process.env.OPENCV_LIB_DIR) || getDefaultLibDir())
   : resolvePath(opencvBuild.opencvLibDir)
